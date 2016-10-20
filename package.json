@@ -4,9 +4,6 @@
   "license": "Apache 2.0",
   "description": "A simple example that details all steps needed to setup angular and the elasticsearch.js client",
   "main": "index.html",
-  "authors": [
-    "Spencer Alger <spencer@spenceralger.com>"
-  ],
   "dependencies": {
     "angular": "^1.5.5",
     "bootstrap": "^3.3.6",
