@@ -2,14 +2,22 @@
   "private": true,
   "version": "0.0.2",
   "license": "Apache 2.0",
-  "description": "A simple example that details all steps needed to setup angular and the elasticsearch.js client",
+  "description": " angular and the elasticsearch.js client",
   "main": "index.html",
-  "authors": [
-    "Spencer Alger <spencer@spenceralger.com>"
-  ],
   "dependencies": {
-    "angular": "^1.5.5",
-    "bootstrap": "^3.3.6",
+  "@angular/common": "2.1.0",
+    "@angular/compiler": "2.1.0",
+    "@angular/core": "2.1.0",
+    "@angular/forms": "^2.1.0",
+    "@angular/http": "2.1.0",
+    "@angular/platform-browser": "2.1.0",
+    "@angular/platform-browser-dynamic": "2.1.0",
+    "@angular/platform-server": "2.1.0",
+    "@angular/router": "3.1.0",
+    "@angularclass/conventions-loader": "^1.0.2",
+    "@angularclass/hmr": "~1.2.0",
+    "@angularclass/hmr-loader": "~3.0.2",    
+"bootstrap": "^3.3.6",
     "elasticsearch-browser": "^12.0.0-rc2"
   }
 }
