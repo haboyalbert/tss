@@ -1,159 +1,21 @@
-<!DOCTYPE html>
 <html>
-    
-    <head>
-        <title>
-            Elasticsearch + Angular
-        </title>
-        <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.css"
-        />
-    </head>
-    
-    <body>
-        <div ng-app="twsApp" ng-controller="twsCtrl">
-            <header>
-                <h1>
-                    Twitter Geo SA Search
-                </h1>
-            </header>
-            <section class="searchField">
-                <form ng-submit="search()">
-                    <h2>
-                        format:lat,lon,radius,searchString:
-                    </h2>
-                    <input ng-model="searchTerm" type="text" />
-                    <input type="submit" value="Search" />
-                </form>
-            </section>
-            <section class="results">
-                <div class="no-records" ng-hide="records.length">
-                    No results
-                </div>
-                <article class="record" ng-cloak="" ng-repeat="record in records">
-                    {{record}}
-                    <br />
-                    ================================================================================================================
-                    ================================================================================================================
-                    <br />
-                </article>
-                <div class="load-more" ng-cloak="" ng-hide="allResults">
-                    <a ng-click="loadMore()">
-                        More...
-                    </a>
-                </div>
-            </section>
-        </div>
-        <!-- include npm modules in proper order -->
-        <script src="node_modules/angular/angular.min.js">
-        </script>
-        <script src="node_modules/elasticsearch-browser/elasticsearch.angular.min.js">
-        </script>
-        <!-- app code starts is here -->
-        <script>
-        //app.js define inside one html
-            var twsApp = angular.module('twsApp', ['elasticsearch']);
+  <head>
+    <title>Auth0-jQuery</title>
+    <meta charset="utf-8">
+    <script src="//code.jquery.com/jquery-3.1.0.min.js"></script>
 
-            twsApp.factory('twsSvc', ['$q', 'esFactory', '$location',
-            function($q, elasticsearch, $location) {
-                var client = elasticsearch({
-                    host: "10.252.0.246:9200"
-                });
+    <!-- Auth0 lock script -->
+    <script src="//cdn.auth0.com/js/lock/10.3.0/lock.min.js"></script>
+    <script src="auth0-variables.js"></script>
+    <script src="app.js"></script>
 
-                var search = function(term, offset) {
-                    strs = term.split(",") var deferred = $q.defer();
-                    var query = {
-
-                        "bool": {
-                            "must": {
-                                "match": {
-                                    "content": {
-                                        "query": strs[3],
-                                        "minimum_should_match": "1"
-                                    }
-                                }
-                            },
-                            "filter": {
-                                "geo_distance": {
-                                    "distance": strs[2],
-                                    "location": {
-                                        "lat": strs[0],
-                                        "lon": strs[1]
-                                    }
-                                }
-                            }
-                        }
-                    };
-                    client.search({
-                        "index": 'us_large_cities',
-                        "type": 'city',
-                        "body": {
-                            "size": 250,
-                            "from": (offset || 0) * 250,
-                            "query": query
-
-                        }
-                    }).then(function(result) {
-                        var ii = 0,
-                        hits_in, hits_out = [];
-                        hits_in = (result.hits || {}).hits || [];
-                        for (; ii < hits_in.length; ii++) {
-                            hits_out.push(hits_in[ii]._source);
-                        }
-                        deferred.resolve(hits_out);
-                    },
-                    deferred.reject);
-
-                    return deferred.promise;
-                };
-
-                return {
-                    "search": search
-                };
-            }]);
-            
-            //controller
-            twsApp.controller('twsCtrl', ['twsSvc', '$scope', '$location',
-            function(twsSvc, $scope, $location) {
-                $scope.records = [];
-                $scope.page = 0;
-                $scope.allResults = false;
-                $scope.searchTerm = '';
-
-                $scope.search = function() {
-                    $scope.page = 0;
-                    $scope.records = [];
-                    $scope.allResults = false;
-                    $location.search({
-                        'q': $scope.searchTerm
-                    });
-                    $scope.loadMore();
-                };
-                formatDate = function(results, rownnum) {
-                    var now = Date.parse(new Date());
-                    var recordNo = 0;
-                    var recordDate = '';
-                    finalrow = '';
-                    cc = results[rownnum].content.split("@#@") for (; recordNo < cc.length; recordNo++) {
-                        recordtimestamp = cc[recordNo].split("::") if (now - recordtimestamp[0] <= 3600 * 24 * 1000) recordDate = new Date(parseInt(recordtimestamp[0])).toLocaleString().replace(/:\d{1,2}$/, ' ') finalrow = "\r\n\n" + recordDate + "::" + recordtimestamp[1] + "\r\n\n" + finalrow
-
-                    }
-                    $scope.records.push(rownnum + ":  " + results[rownnum].city + "@@@@@@@@@@@@@@@@@@@ \r\n" + finalrow);
-                };
-                $scope.loadMore = function() {
-                    twsSvc.search($scope.searchTerm, $scope.page++).then(function(results) {
-                        if (results.length !== 250) {
-                            $scope.allResults = true;
-                        }
-                        var ii = 0;
-                        for (; ii < results.length; ii++) {
-                            formatDate(results, ii)
-                        }
-                    });
-                };
-
-                $scope.loadMore();
-            }]);
-        </script>
-    </body>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <img alt="avatar" class="avatar" style="display:none;">
+    <p>Welcome <span class="nickname"></span></p>
+    <p><span class="aa"></span></p>
+    <button type="submit" class="btn-login">Sign In</button>
+    <button type="submit" class="btn-logout" style="display:none;">Sign Out</button>
+  </body>
 </html>
